@@ -31,5 +31,9 @@ res.sendFile(path.join(__dirname,"../admin","dist","index.html"))
     })
 }
 
-app.listen(ENV.PORT, () => console.log("Server is up and running 123"),
-connectDb() )
+const startServer = async () => {
+  await connectDb();
+  app.listen(ENV.PORT, () => console.log("Server is up and running"));
+};
+
+startServer();
