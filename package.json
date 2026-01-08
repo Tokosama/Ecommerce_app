@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node":">=20.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "build": "npm install --prefix backend && npm install --prefix admin && npm run build --prefix admin",
@@ -12,5 +12,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^8.19.3"
+  }
 }
