@@ -92,7 +92,7 @@ export async function updateProduct(req, res) {
     await product.save();
     res.status(200).json(product);
   } catch (error) {
-    console.error("Error creating product", error);
+    console.error("Error fetching products:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -105,7 +105,7 @@ export async function getAllOrders(req, res) {
       .sort({ createAt: -1 });
     res.status(200).json({ orders });
   } catch (error) {
-    console.error("Error creating product", error);
+    console.error("Error in getAllOrders controller:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -137,7 +137,7 @@ export async function updateOrderStatus(req, res) {
       .status(200)
       .json({ message: "Order status updated successfully", order });
   } catch (error) {
-    console.error("Error creating product", error);
+    console.error("Error in updateOrderStatus controller:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -147,7 +147,7 @@ export async function getAllCustomers(req, res) {
     const customers = await User.find().sort({ createdAt: -1 });
     res.status(200).json({ customers });
   } catch (error) {
-    console.error("Error creating product", error);
+    console.error("Error fetching customers:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }
@@ -162,7 +162,7 @@ export async function getDashboardStats(req, res) {
         },
       },
     ]);
-
+    const totalRevenue = revenueResult[0]?.total || 0;
     const totalCustomers = await User.countDocuments();
     const totalProducts = await Product.countDocuments();
 
@@ -173,7 +173,7 @@ export async function getDashboardStats(req, res) {
       totalProducts,
     });
   } catch (error) {
-    console.error("Error creating product", error);
+    console.error("Error fetching dashboard stats:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 }

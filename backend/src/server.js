@@ -21,7 +21,7 @@ app.use(clerkMiddleware())
 
 
 app.use("/api/inngest",serve({client:inngest, functions:functions}))
-app.use("api/admin",adminRoutes)
+app.use("/api/admin",adminRoutes)
 
 app.get("/api/health", (req,res)=>{
     res.status(200).json({message:"Success"});
