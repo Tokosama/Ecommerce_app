@@ -4,49 +4,6 @@ import { Order } from "../models/order.model.js";
 import { User } from "../models/user.model.js";
 import { json } from "express";
 
-export async function createProduct(req, res) {
-  try {
-    const { name, description, price, stock, category } = req.body;
-    if (!name || !description || !price || !stock || !category) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-    if (!req.files || req.files.length === 0) {
-      return res
-        .status(400)
-        .json({ message: "At least one image is required" });
-    }
-
-    if (req.files.length > 3) {
-      return res.status(400).json({ message: "Maximum 3 images allowed" });
-    }
-    const uploadPromises = req.files.map((file) => {
-      return cloudinary.uploader.upload(file.path, {
-        folder: "products",
-      });
-    });
-
-    const uploadResults = await Promise.all(uploadPromises);
-
-    //secure_url
-
-    const imageUrls = uploadResults.map((result) => result.secure_url);
-
-    const product = await Product.create({
-      name,
-      description,
-      price: parseFloat(price),
-      stock: parseInt(stock),
-      category,
-      images: imageUrls,
-    });
-
-    res.status(201).json(product);
-  } catch (error) {
-    console.error("Error creating product", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-}
-
 export async function addAddress(req, res) {
   try {
     const {
@@ -62,7 +19,11 @@ export async function addAddress(req, res) {
 
     const user = req.user;
 
-    //  if it is default , unset all other default
+    if (!fullName || !streetAddress || !city || !state || !zipCode) {
+      return (
+        res.status(400), json({ error: "Missing required address fields" })
+      );
+    } //  if it is default , unset all other default
 
     if (isDefault) {
       user.addresses.forEach((addr) => {
@@ -83,7 +44,7 @@ export async function addAddress(req, res) {
     await user.save();
 
     res.status(201).json({
-      message: "Address added successflly",
+      message: "Address added successfully",
       addresses: user.addresses,
     });
   } catch (error) {
@@ -176,6 +137,9 @@ export async function addToWishList(req, res) {
     }
     user.wishlist.push(productId);
     await user.save();
+    res
+      .status(200)
+      .json({ message: "Product added to wishlist", wishlist: user.wishlist });
   } catch (error) {
     console.error("Error in addToWishList controller:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -183,7 +147,7 @@ export async function addToWishList(req, res) {
 }
 export async function getWishList(req, res) {
   try {
-    const user = req.user;
+    const user = await User.findById(req.user._id).pppulate("wishlist");
     res.status(200).json({ wishlist: user.wishlist });
   } catch (error) {
     console.error("Error in getWishList controller:", error);
@@ -195,13 +159,17 @@ export async function removeFromWishList(req, res) {
     const user = req.user;
     const { productId } = req.params;
 
+    // check if already in the wishList
     if (!user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product is not in wishList" });
     }
 
     user.wishlist.pull(productId);
     await user.save();
-    // check if already in the wishList
+    res.status(200).json({
+      message: "Product removed from wishlist",
+      wishlist: user.wishlist,
+    });
   } catch (error) {
     console.error("Error in removeFromWishList controller:", error);
     res.status(500).json({ message: "Internal server error" });

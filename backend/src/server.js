@@ -20,7 +20,7 @@ app.use(clerkMiddleware());
 
 app.use("/api/inngest", serve({ client: inngest, functions: functions }));
 app.use("/api/admin", adminRoutes);
-app.use("/api/users", userRoute);
+app.use("/api/users", userRoutes);
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({ message: "Success" });
