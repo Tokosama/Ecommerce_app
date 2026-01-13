@@ -7,7 +7,6 @@ import ProductsPage from "./pages/ProductsPage";
 import OrdersPage from "./pages/OrdersPage";
 import CustomersPage from "./pages/CustomersPage";
 import DashboardLayout from "./layouts/DashboardLayout";
-import { LoaderIcon } from "lucide-react";
 import PageLoader from "./components/PageLoader";
 
 function App() {
