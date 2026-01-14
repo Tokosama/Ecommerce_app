@@ -6,7 +6,8 @@ import {
   ShoppingBagIcon,
   UsersIcon,
 } from "lucide-react";
-import getOrderStatusBadge, {
+import {
+  getOrderStatusBadge,
   capitalizeText,
   formatDate,
 } from "../lib/utils.js";
