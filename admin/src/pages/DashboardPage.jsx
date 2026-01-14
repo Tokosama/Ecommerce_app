@@ -6,9 +6,16 @@ import {
   ShoppingBagIcon,
   UsersIcon,
 } from "lucide-react";
-import getOrderStatusBadge, { capitalizeText, formatDate } from "../lib/utils.js"
+import getOrderStatusBadge, {
+  capitalizeText,
+  formatDate,
+} from "../lib/utils.js";
 function DashboardPage() {
-  const { data: ordersData, isLoading: ordersLoading } = useQuery({
+  const {
+    data: ordersData,
+    isLoading: ordersLoading,
+    isError: ordersError,
+  } = useQuery({
     queryKey: ["orders"],
     queryFn: orderApi.getAll,
   });
@@ -18,17 +25,17 @@ function DashboardPage() {
     queryFn: statsApi.getDashboard,
   });
 
-  if (ordersLoading) {
+  if (ordersLoading || ordersError) {
     return null;
   }
-  const recentOrders = ordersData.orders.slice(0, 5) || [];
+  const recentOrders = ordersData?.orders?.slice(0, 5) ?? [];
 
   const statsCards = [
     {
       name: "Total Revenue",
       value: statsLoading
         ? "..."
-        : `$${statsData.totalRevenue.toFixed(2) || 0}`,
+        : `$${statsData?.totalRevenue?.toFixed(2) || 0}`,
       icon: <DollarSignIcon className="w-8 h-8" />,
     },
     {
@@ -63,7 +70,7 @@ function DashboardPage() {
         ))}
       </div>
 
-      <div className="card-bg-base-100 shadow-xl">
+      <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title">Recent Orders</h2>
           {ordersLoading ? (
