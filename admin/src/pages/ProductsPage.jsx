@@ -47,11 +47,15 @@ function ProductsPage() {
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
   });
-
+  const [deletingId, setDeletingId] = useState(null);
   const deleteProductMutation = useMutation({
     mutationFn: productApi.delete,
     onSuccess: () => {
+      setDeletingId(null);
       queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+    onError: () => {
+      setDeletingId(null);
     },
   });
   const closeModal = () => {
@@ -84,6 +88,11 @@ function ProductsPage() {
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 3) return alert("Maximum 3 images allowed");
+    // Revoke old blob URLs to prevent memory leaks
+    imagePreviews.forEach((url) => {
+      if (url.startsWith("blob:")) URL.revokeObjectURL(url);
+    });
+
     setImages(files);
     setImagePreviews(files.map((file) => URL.createObjectURL(file)));
   };
@@ -191,9 +200,13 @@ function ProductsPage() {
                     </button>
                     <button
                       className="btn btn-square btn-ghost text-error"
-                      onClick={() => deleteProductMutation.mutate({id:product._id})}
+                      onClick={() => {
+                        setDeletingId(product._id);
+                        deleteProductMutation.mutate({ id: product._id });
+                      }}
                     >
-                      {deleteProductMutation.isPending ? (
+                      {deleteProductMutation.isPending &&
+                      deletingId === product._id ? (
                         <span className="loading loading-spinner"></span>
                       ) : (
                         <Trash2Icon className="w-5 h-5" />
@@ -213,6 +226,8 @@ function ProductsPage() {
         type="checkbox"
         className="modal-toggle"
         checked={showModal}
+        onChange={() => {}}
+        readOnly
       />
 
       <div className="modal">
