@@ -27,7 +27,7 @@ function CustomersPage() {
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           {isLoading ? (
-            <div className="flex justidy-center py-12">
+            <div className="flex justify-center py-12">
               <span className="laoding loading-spinner loading-lg"></span>
             </div>
           ) : customers.length === 0 ? (
