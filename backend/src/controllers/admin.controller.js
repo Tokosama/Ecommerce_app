@@ -97,6 +97,18 @@ export async function updateProduct(req, res) {
   }
 }
 
+export async function removeProduct(req, res) {
+  try {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    await product.deleteOne();
+    res.status(200).json({message:"Successfully deleted the product"});
+  } catch (error) {
+    console.error("Error deleting  product", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 export async function getAllOrders(req, res) {
   try {
     const orders = await Order.find()

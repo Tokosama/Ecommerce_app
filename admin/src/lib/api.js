@@ -14,6 +14,10 @@ export const productApi = {
     const { data } = await axiosInstance.put(`/admin/products/${id}`, formData);
     return data;
   },
+  delete: async ({ id }) => {
+    await axiosInstance.delete(`/admin/products/${id}`);
+    return;
+  },
 };
 
 export const orderApi = {
@@ -30,10 +34,9 @@ export const orderApi = {
   },
 };
 
-export const statsApi ={
-  getDashboard:async()=>{
-    const {data} = await axiosInstance.get("/admin/stats")
-    return data
-
-  }
-}
+export const statsApi = {
+  getDashboard: async () => {
+    const { data } = await axiosInstance.get("/admin/stats");
+    return data;
+  },
+};
