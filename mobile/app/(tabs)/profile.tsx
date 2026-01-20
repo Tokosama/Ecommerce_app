@@ -75,7 +75,7 @@ const ProfileScreen = () => {
                   {user?.firstName} {user?.lastName}
                 </Text>
                 <Text className="text-text-secondary text-sm">
-                  {user?.emailAddresses[0].emailAddress || "No email"}
+                  {user?.emailAddresses?.[0]?.emailAddress || "No email"}
                 </Text>
               </View>
             </View>
@@ -108,7 +108,7 @@ const ProfileScreen = () => {
           ))}
         </View>
 
-        {/* NOTIFICATONS BTN */}
+        {/* NOTIFICATIONS BTN */}
         <View className="mb-3 mx-6 bg-surface rounded-2xl p-4">
           <TouchableOpacity
             className="flex-row items-center justify-between py-2"
@@ -132,7 +132,7 @@ const ProfileScreen = () => {
           </TouchableOpacity>
         </View>
 
-        {/* PRIVACY AND SECURTIY LINK */}
+        {/* PRIVACY AND SECURITY LINK */}
         <View className="mb-3 mx-6 bg-surface rounded-2xl p-4">
           <TouchableOpacity
             className="flex-row items-center justify-between py-2"

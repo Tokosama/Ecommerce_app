@@ -6,14 +6,14 @@ import { useAuth } from "@clerk/clerk-expo";
 WebBrowser.maybeCompleteAuthSession();
 
 export default function SSOCallback() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn , isLoaded } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (isSignedIn) {
-      router.replace("/(tabs)"); // ou ta route principale
+    if (isSignedIn && isSignedIn) {
+      router.replace("/(tabs)"); 
     }
-  }, [isSignedIn]);
+  }, [isSignedIn,isLoaded,router]);
 
   return null;
 }
