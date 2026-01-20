@@ -58,7 +58,7 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
     >
       <View className="relative">
         <Image
-          source={{ uri: product.images[0] }}
+          source={{ uri: product.images?.[0] ?? "" }}
           className="w-full h-44 bg-background-lighter"
           resizeMode="cover"
         />

@@ -22,8 +22,8 @@ Sentry.init({
   enableLogs: true,
 
   // Configure Session Replay
-  replaysSessionSampleRate: 1.0,
-  replaysOnErrorSampleRate: 1,
+  replaysSessionSampleRate: __DEV__ ? 1.0 : 0.1, // 10% in production
+  replaysOnErrorSampleRate: 1.0, // Keep 100% for error sessions
   integrations: [
     Sentry.mobileReplayIntegration(),
     Sentry.feedbackIntegration(),

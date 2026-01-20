@@ -65,7 +65,7 @@ const ShopScreen = () => {
                 Shop
               </Text>
               <Text className="text-text-secondary text-sm mt-1 ">
-                Browse all porducts
+                Browse all products
               </Text>
             </View>
 
@@ -87,7 +87,7 @@ const ShopScreen = () => {
             />
 
             <TextInput
-              placeholder="Search for porudcts"
+              placeholder="Search for products"
               placeholderTextColor={"#666"}
               className="flex-1 ml-3 text-base text-text-primary"
               value={searchQuery}
