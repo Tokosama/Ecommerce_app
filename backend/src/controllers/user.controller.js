@@ -129,9 +129,7 @@ export async function addToWishList(req, res) {
   try {
     const user = req.user;
     const { productId } = req.body;
-
-    // check if already in the wishList
-
+    // check if already in the wishList    
     if (user.wishlist.includes(productId)) {
       return res.status(400).json({ error: "Product already in the wishList" });
     }
@@ -147,7 +145,7 @@ export async function addToWishList(req, res) {
 }
 export async function getWishList(req, res) {
   try {
-    const user = await User.findById(req.user._id).pppulate("wishlist");
+    const user = await User.findById(req.user._id).populate("wishlist");
     res.status(200).json({ wishlist: user.wishlist });
   } catch (error) {
     console.error("Error in getWishList controller:", error);
