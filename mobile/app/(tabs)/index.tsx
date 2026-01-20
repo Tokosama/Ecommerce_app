@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  Button,
 } from "react-native";
 import React, { useMemo, useState } from "react";
 import SafeScreen from "@/components/SafeScreen";
@@ -81,14 +80,14 @@ const ShopScreen = () => {
           {/*SEARCH BAR */}
           <View className="bg-surface flex-row items-center px-5 py-4 rounded-2xl">
             <Ionicons
-              color={"#666"}
+              color={"#667"}
               size={22}
               name="search"
             />
 
             <TextInput
               placeholder="Search for products"
-              placeholderTextColor={"#666"}
+              placeholderTextColor={"#667"}
               className="flex-1 ml-3 text-base text-text-primary"
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -130,7 +129,6 @@ const ShopScreen = () => {
           </ScrollView>
         </View>
 
-        
         {/*Product Display*/}
         <View className="px-6 mb-6">
           <View className="flex-row items-center justify-between mb-4">
