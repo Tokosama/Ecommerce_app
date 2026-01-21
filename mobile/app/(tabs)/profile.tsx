@@ -4,6 +4,7 @@ import SafeScreen from "@/components/SafeScreen";
 import { useAuth, useUser } from "@clerk/clerk-expo";
 import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 const MENU_ITEMS = [
   {
     id: 1,
@@ -40,7 +41,7 @@ const ProfileScreen = () => {
   const { user } = useUser();
   const handleMenuPress = (action: (typeof MENU_ITEMS)[number]["action"]) => {
     if (action === "/profile") return;
-    //router.push(action)
+    router.push(action)
   };
   return (
     <SafeScreen>
