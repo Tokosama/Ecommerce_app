@@ -137,7 +137,7 @@ const PrivacyAndSecurityScreen = () => {
           <Ionicons
             name="arrow-back"
             size={28}
-            color="fff"
+            color="#fff"
           />
         </TouchableOpacity>
         <Text className="text-text-primary text-2xl font-bold">
@@ -151,7 +151,7 @@ const PrivacyAndSecurityScreen = () => {
       >
         {/**SECURITY SETTINGS */}
         <View className="px-6 pt-6">
-          <Text className="text-text-primary text-lg fon-bold mb-4">
+          <Text className="text-text-primary text-lg font-bold mb-4">
             Security
           </Text>
           {securitySettings.map((setting) => (
