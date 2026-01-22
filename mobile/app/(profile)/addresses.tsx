@@ -63,7 +63,7 @@ const AddressesScreen = () => {
       { text: "Cancel", style: "cancel" },
       {
         text: "Delete",
-        style: "cancel",
+        style: "destructive",
         onPress: () => deleteAddress(addressId),
       },
     ]);

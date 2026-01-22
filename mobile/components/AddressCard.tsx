@@ -32,7 +32,7 @@ export default function AddressCard({
           </View>
         )}
       </View>
-      <View className="ml-15">
+      <View className="ml-14">
         <Text className="text-text-primary font-semibold mb-1">{address.fullName}</Text>
         <Text className="text-text-secondary text-sm mb-1">{address.streetAddress}</Text>
         <Text className="text-text-secondary text-sm mb-2">

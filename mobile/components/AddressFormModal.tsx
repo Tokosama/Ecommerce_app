@@ -85,7 +85,7 @@ const AddressFormModal = ({
                 </Text>
                 <TextInput
                   className="bg-surface text-text-primary p-4 rounded-2xl text-base"
-                  placeholder="e.g., Home, Work, Offfice"
+                  placeholder="e.g., Home, Work, Office"
                   placeholderTextColor={"#667"}
                   value={addressForm.label}
                   onChangeText={(text) =>
