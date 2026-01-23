@@ -105,6 +105,7 @@ const ProductDetailScreen = () => {
           <ScrollView
             horizontal
             pagingEnabled
+            scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
             onScroll={(e) => {
               const index = Math.round(e.nativeEvent.contentOffset.x / width);
