@@ -132,16 +132,18 @@ const CartScreen = () => {
           "Your payment was successfully! Your order is being processed",
           [{ text: "OK", onPress: () => {} }],
         );
+        clearCart();
       }
-      clearCart();
+      setPaymentLoading(false);
     } catch (error) {
       Sentry.logger.error("Payment cancelled", {
-          error: error instanceof Error? error.message: "Unknown error",
-          cartTotal: total,
-          itemCount: cartItems.length,
-        });
+        error: error instanceof Error ? error.message : "Unknown error",
+        cartTotal: total,
+        itemCount: cartItems.length,
+      });
       console.log("Payment failed", error);
       Alert.alert("Error", "Failed to process payment");
+      setPaymentLoading(false);
     }
   };
 
