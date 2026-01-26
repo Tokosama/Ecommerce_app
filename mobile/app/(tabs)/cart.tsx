@@ -385,7 +385,7 @@ function EmptyUI() {
           size={80}
           color="#666"
         />
-        <Text className="text-text-primary font-semibold text-xl mt-4">
+        <Text className="text-text-primary font-semibold text-lg mt-4">
           Your cart is empty
         </Text>
         <Text className="text-text-secondary text-center mt-2">
