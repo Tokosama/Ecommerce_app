@@ -55,7 +55,7 @@ const OrdersScreen = () => {
     try {
       await Promise.all(
         selectedOrder.orderItems.map((item) => {
-          createReviewAsync({
+        return  createReviewAsync({
             productId: item.product._id,
             orderId: selectedOrder._id,
             rating: productRatings[item.product._id],
@@ -121,7 +121,7 @@ const OrdersScreen = () => {
                         style={{ height: 80, width: 80, borderRadius: 8 }}
                         contentFit="cover"
                       />
-                      {/*BAGDE FRO MORE ITEMS */}
+                      {/*BAGDE FOR MORE ITEMS */}
                       {order.orderItems.length > 1 && (
                         <View className="absolute -bottom-1 -right-1 bg-primary rounded-full size-7 items-center justify-center">
                           <Text className="text-background text-xs font-bold">
