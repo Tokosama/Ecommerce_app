@@ -73,6 +73,15 @@ export async function createPaymenyIntent(req, res) {
       //add the stripe customer Id to the user object in the DB
       await User.findByIdAndUpdate(user._id, { stripeCustomerId: customer.id });
     }
+    //Order creation
+    const order = await Order.create({
+      user: user._id.toString(),
+      clerkId: user.clerkId,
+      orderItems: validatedItems,
+      shippingAddress,
+      totalPrice: total,
+      status: "pending",
+    });
 
     //create payment intent
     const paymentIntent = await stripe.paymentIntents.create({
@@ -83,11 +92,7 @@ export async function createPaymenyIntent(req, res) {
         enabled: true,
       },
       metadata: {
-        clerkId: user.clerkId,
-        userId: user._id.toString(),
-        orderItems: JSON.stringify(validatedItems),
-        shippingAddress: JSON.stringify(shippingAddress),
-        totalPrice: total.toFixed(2),
+        orderId: order._id.toString(),
       },
       // in the webhooks section we will use this metadata
     });
@@ -116,32 +121,24 @@ export async function handleWebhook(req, res) {
     console.log("Payment succeeded:", paymentIntent.id);
 
     try {
-      const { userId, clerkId, orderItems, shippingAddress, totalPrice } =
-        paymentIntent.metadata;
+      const { orderId } = paymentIntent.metadata;
 
       //Check if order already exists (prevent duplicates)
-      const existingOrder = await Order.findOne({
-        "paymentResult.id": paymentIntent.id,
-      });
-      if (existingOrder) {
-        console.log("Order already exists fro payment:", paymentIntent.id);
+      if (!orderId) return res.json({ received: true });
+
+      const order = await Order.findById(orderId);
+      if (!order || order.isPaid) {
         return res.json({ received: true });
       }
 
-      //create order
-      const order = await Order.create({
-        user: userId,
-        clerkId,
-        orderItems: JSON.parse(orderItems),
-        shippingAddress: JSON.parse(shippingAddress),
-        paymentResult: {
-          id: paymentIntent.id,
-          status: "succeeded",
-        },
-        totalPrice: parseFloat(totalPrice),
-      });
+      order.paymentResult = {
+        id: paymentIntent.id,
+        status: paymentIntent.status,
+      };
+
+      await order.save();
       // update product stock
-      const items = JSON.parse(orderItems);
+      const items = order.orderItems;
       for (const item of items) {
         await Product.findByIdAndUpdate(item.product, {
           $inc: { stock: -item.quantity },
