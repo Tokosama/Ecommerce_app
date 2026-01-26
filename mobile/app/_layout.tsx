@@ -10,6 +10,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import * as Sentry from "@sentry/react-native";
+import { StripeProvider } from "@stripe/stripe-react-native";
 
 Sentry.init({
   dsn: "https://fa8e45161529a7871784ebbbdd7f9a44@o4510716212412416.ingest.de.sentry.io/4510734629404752",
@@ -67,11 +68,15 @@ export default Sentry.wrap(function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        />
+        <StripeProvider
+          publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+        >
+          <Stack
+            screenOptions={{
+              headerShown: false,
+            }}
+          />
+        </StripeProvider>
       </QueryClientProvider>
     </ClerkProvider>
   );

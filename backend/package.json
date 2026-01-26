@@ -20,7 +20,8 @@
     "express": "^5.2.1",
     "inngest": "^3.49.1",
     "mongoose": "^8.19.3",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "stripe": "^20.2.0"
   },
   "type": "module"
 }
