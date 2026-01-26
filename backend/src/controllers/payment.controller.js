@@ -76,10 +76,10 @@ export async function createPaymenyIntent(req, res) {
     //Order creation
     const order = await Order.create({
       user: user._id.toString(),
-      clerkId,
-      orderItems,
+      clerkId: user.clerkId,
+      orderItems: validatedItems,
       shippingAddress,
-      totalPrice,
+      totalPrice: total,
       status: "pending",
     });
 
@@ -138,7 +138,7 @@ export async function handleWebhook(req, res) {
 
       await order.save();
       // update product stock
-      const items = JSON.parse(orderItems);
+      const items = order.orderItems;
       for (const item of items) {
         await Product.findByIdAndUpdate(item.product, {
           $inc: { stock: -item.quantity },
