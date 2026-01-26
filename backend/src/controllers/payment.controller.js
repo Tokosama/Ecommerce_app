@@ -4,7 +4,6 @@ import { User } from "../models/user.model.js";
 import { Product } from "../models/product.model.js";
 import { Order } from "../models/order.model.js";
 import { Cart } from "../models/cart.model.js";
-import Stripe from "stripe";
 const stripe = new Stripe(ENV.STRIPE_SECRET_KEY);
 
 export async function createPaymenyIntent(req, res) {
@@ -14,8 +13,14 @@ export async function createPaymenyIntent(req, res) {
 
     //Validate cart items
     if (!cartItems || cartItems.length === 0) {
-      return res.status(400).json({ error: "Cart is emplty" });
+      return res.status(400).json({ error: "Cart is empty" });
     }
+    //Validate shipping adress
+
+    if (!shippingAddress) {
+      return res.status(400).json({ error: "Shipping address is required" });
+    }
+
     //Calculate total from server-side
 
     let subtotal = 0;
@@ -93,7 +98,7 @@ export async function createPaymenyIntent(req, res) {
   }
 }
 export async function handleWebhook(req, res) {
-  const sig = req.headers("stripe-signature");
+  const sig = req.header("stripe-signature");
   let event;
 
   try {
@@ -102,7 +107,7 @@ export async function handleWebhook(req, res) {
       sig,
       ENV.STRIPE_WEBHOOK_SECRET,
     );
-  } catch (error) {
+  } catch (err) {
     console.error("Webhook signature verification failed", err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }

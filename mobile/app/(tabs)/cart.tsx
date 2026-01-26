@@ -129,7 +129,7 @@ const CartScreen = () => {
       } else {
         Alert.alert(
           "Success",
-          "Your payment was succesfully! Your order is being processed",
+          "Your payment was successfully! Your order is being processed",
           [{ text: "OK", onPress: () => {} }],
         );
       }
