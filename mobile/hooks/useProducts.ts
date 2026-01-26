@@ -8,6 +8,7 @@ const useProducts = () => {
   const result = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
+      console.log("fetching")
       const { data } = await api.get<Product[]>("/products");
       return data;
     },

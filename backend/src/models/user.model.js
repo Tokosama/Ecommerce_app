@@ -30,8 +30,8 @@ const addressSchema = new mongoose.Schema({
     required: true,
   },
   isDefault: {
-    type:Boolean,
-    default:false
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -55,6 +55,10 @@ const userSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    stripeCustomerId: {
+      type: String,
+      default: "",
+    },
     addresses: [addressSchema],
     wishlist: [
       {
@@ -63,7 +67,7 @@ const userSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export const User = mongoose.model("User", userSchema);

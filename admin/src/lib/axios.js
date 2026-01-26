@@ -5,5 +5,6 @@ const axiosInstance = axios.create({
   withCredentials: true, // send cooking automatically,
 });
 
+console.log("API URL =", import.meta.env.VITE_API_URL);
 
-export default axiosInstance
+export default axiosInstance;
