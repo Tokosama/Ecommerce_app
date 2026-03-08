@@ -49,7 +49,7 @@ export async function createProduct(req, res) {
 export async function getAllProducts(req, res) {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-
+console.log(products)
     res.status(200).json(products);
   } catch (error) {
     console.error("Error creating product", error);

@@ -18,6 +18,7 @@ import { Image } from "expo-image";
 import OrderSummary from "@/components/OrderSummary";
 import AddressSelectionModal from "@/components/AddressSelectionModal";
 import * as Sentry from "@sentry/react-native";
+import LoadingState from "@/components/LoadingState";
 
 const CartScreen = () => {
   const api = useApi();
@@ -147,7 +148,7 @@ const CartScreen = () => {
     }
   };
 
-  if (isLoading) return <LoadingUI />;
+  if (isLoading) return <LoadingState message="Loading cart..."  />;
   if (isError) return <ErrorUI />;
   if (cartItems.length === 0) return <EmptyUI />;
   return (
@@ -341,17 +342,7 @@ const CartScreen = () => {
 
 export default CartScreen;
 
-function LoadingUI() {
-  return (
-    <View className="flex-1 bg-background items-center justify-center">
-      <ActivityIndicator
-        size="large"
-        color="#00D9FF"
-      />
-      <Text className="text-text-secondary mt-4">Loading cart...</Text>
-    </View>
-  );
-}
+
 
 function ErrorUI() {
   return (

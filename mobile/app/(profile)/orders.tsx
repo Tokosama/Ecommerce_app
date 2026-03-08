@@ -17,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Image } from "expo-image";
 import RatingModal from "@/components/RatingModal";
+import LoadingState from "@/components/LoadingState";
 
 const OrdersScreen = () => {
   const { data: orders, isLoading, isError } = useOrders();
@@ -55,7 +56,7 @@ const OrdersScreen = () => {
     try {
       await Promise.all(
         selectedOrder.orderItems.map((item) => {
-        return  createReviewAsync({
+          return createReviewAsync({
             productId: item.product._id,
             orderId: selectedOrder._id,
             rating: productRatings[item.product._id],
@@ -90,7 +91,7 @@ const OrdersScreen = () => {
         <Text className="text-text-primary text-2xl font-bold">My Orders</Text>
       </View>
       {isLoading ? (
-        <LoadingUI />
+        <LoadingState message="Loading order..." />
       ) : isError ? (
         <ErrorUI />
       ) : !orders || orders.length === 0 ? (
@@ -223,18 +224,6 @@ const OrdersScreen = () => {
       />
     </SafeScreen>
   );
-
-  function LoadingUI() {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator
-          size="large"
-          color="#00D9FF"
-        />
-        <Text className="text-text-secondary mt-4">Loading orders...</Text>
-      </View>
-    );
-  }
 
   function ErrorUI() {
     return (
